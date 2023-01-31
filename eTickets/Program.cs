@@ -1,7 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using eTickets.Data;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DbConnection") ??
+    throw new InvalidOperationException("Connection string 'DbConnection' not found.");
+
+builder.Services.AddDbContext<AppDbContent>(options => options.UseSqlServer(connectionString)); 
 
 var app = builder.Build();
 
