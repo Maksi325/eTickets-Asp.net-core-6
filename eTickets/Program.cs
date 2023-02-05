@@ -9,6 +9,9 @@ var connectionString = builder.Configuration.GetConnectionString("DbConnection")
 
 builder.Services.AddDbContext<AppDbContent>(options => options.UseSqlServer(connectionString)); 
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,5 +32,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+AppDbInitializer.Seed(app);
 
 app.Run();
